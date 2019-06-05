@@ -18,6 +18,7 @@
     "productName": "EnTanMo-OKEx-App",
     "appId": "com.entanmo.etmokexapp",
     "copyright": "EnTanMo",
+    "electronVersion": "5.0.2",
     "electronDownload": {
       "version": "5.0.2",
       "platform": "win32",

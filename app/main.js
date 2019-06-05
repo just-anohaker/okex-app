@@ -33,10 +33,10 @@ function createWindow() {
         win.loadURL(httpServer);
     } else {
         // /> publish
-        // win.loadFile(path.join(__dirname, "build", "index.html"));
+        win.loadFile(path.join(__dirname, "src", "index.html"));
 
         // /> dev
-        win.loadFile(path.join(__dirname, "dev", "index.html"));
+        // win.loadFile(path.join(__dirname, "dev", "index.html"));
     }
 
     // 打开开发者工具
