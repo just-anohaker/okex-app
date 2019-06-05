@@ -1,0 +1,27 @@
+{
+  "name": "okex-app",
+  "version": "1.0.0",
+  "description": "OKEx 交易管理程序",
+  "main": "main.js",
+  "homepage": "https://github.com/just-anohaker/okex-app.git",
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "build": "electron-builder -w"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "okrobot-electron": "git+https://github.com/just-anohaker/ok-robot-electron.git#dev"
+  },
+  "build": {
+    "productName": "EnTanMo-OKEx-App",
+    "appId": "com.entanmo.etmokexapp",
+    "copyright": "EnTanMo",
+    "electronDownload": {
+      "version": "5.0.2",
+      "platform": "win32",
+      "arch": "x64"
+    }
+  }
+}

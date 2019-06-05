@@ -1,0 +1,20 @@
+{
+  "name": "okex-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app/main.js",
+  "scripts": {
+    "start": "npx electron .",
+    "postinstall": "npx electron-rebuild"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^5.0.2",
+    "electron-rebuild": "^1.8.5"
+  },
+  "dependencies": {
+    "okrobot-electron": "git+https://github.com/just-anohaker/ok-robot-electron.git#dev"
+  }
+}
