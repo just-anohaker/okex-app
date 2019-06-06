@@ -8,7 +8,15 @@ const { Application } = require("okrobot-electron");
 function getCurrentDateTime() {
     const t = new Date();
 
-    return `${t.getFullYear()}-${t.getMonth()}-${t.getDate()}_${t.getHours()}_${t.getMinutes()}_${t.getSeconds()}_${t.getMilliseconds()}`;
+    const y = t.getFullYear().toString();
+    const m = (t.getMonth() + 1).toString().padStart(2, "0");
+    const d = t.getDate().toString().padStart(2, "0");
+    const H = t.getHours().toString().padStart(2, "0");
+    const M = t.getMinutes().toString().padStart(2, "0");
+    const S = t.getSeconds().toString().padStart(2, "0");
+    const MS = t.getMilliseconds().toString().padStart(3, "0");
+
+    return `${y}${m}${d}_${H}${M}${S}_${MS}`;
 }
 
 function initSystemLogger(inst) {
@@ -18,8 +26,8 @@ function initSystemLogger(inst) {
     }
 
     const currentDateTime = getCurrentDateTime();
-    const outFilePath = path.join(logsDir, `log-${currentDateTime}.log`);
-    const errorFilePath = path.join(logsDir, `error-${currentDateTime}.log`);
+    const outFilePath = path.join(logsDir, `${currentDateTime}-out.log`);
+    const errorFilePath = path.join(logsDir, `${currentDateTime}-error.log`);
 
     const nodeConsoleLog = console.log.bind(console);
 

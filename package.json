@@ -5,7 +5,8 @@
   "main": "app/main.js",
   "scripts": {
     "start": "npx electron .",
-    "postinstall": "npx electron-rebuild"
+    "postinstall": "npx electron-rebuild",
+    "installdeps": "npm install okrobot-electron"
   },
   "keywords": [],
   "author": "",
