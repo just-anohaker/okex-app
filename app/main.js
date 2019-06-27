@@ -37,8 +37,7 @@ function createWindow() {
         win = null;
     });
 
-    console.log("webContentsChanged emitted.");
-    app.emit("webContentsChanged", win.webContents);
+    app.emit("okexAppReady", win.webContents);
 }
 
 // Electron 会在初始化后并准备
@@ -48,6 +47,7 @@ app.on('ready', createWindow);
 
 // 当全部窗口关闭时退出。
 app.on('window-all-closed', () => {
+    app.emit("okexAppClosed");
     // 在 macOS 上，除非用户用 Cmd + Q 确定地退出，
     // 否则绝大部分应用及其菜单栏会保持激活。
     if (process.platform !== 'darwin') {

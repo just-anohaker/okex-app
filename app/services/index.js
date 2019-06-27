@@ -63,9 +63,14 @@ function main() {
     const inst = Application.getInstance();
     initSystemLogger(inst);
 
-    app.on("webContentsChanged", (newWebContents) => {
-        console.log("webContentChanged");
+    app.on("okexAppReady", (newWebContents) => {
+        console.log("okexApp started.");
         inst.changeWebContents(newWebContents);
+    });
+
+    app.on("okexAppClosed", () => {
+        console.log("okexApp closed");
+        inst.changeWebContents(null);
     });
 
     appExceptionHandler();
