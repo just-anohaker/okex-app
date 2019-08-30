@@ -64,6 +64,16 @@ function main() {
     );
     // const inst = Application.getInstance();
     // initSystemLogger(inst);
+    initSystemLogger({
+        cwd: function () {
+            const ownDirName = "biki_userdatas";
+            const destDir = path.resolve(path.join(app.getPath("documents"), ownDirName));
+            if (!fs.existsSync(destDir)) {
+                fs.mkdirSync(destDir);
+            }
+            return destDir;
+        }
+    });
 
     app.on("okexAppReady", (newWebContents) => {
         console.log("okexApp started.");
