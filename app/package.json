@@ -26,6 +26,7 @@
     "electronVersion": "5.0.2",
     "electronDownload": {
       "version": "5.0.2"
-    }
+    },
+    "icon": "app.ico"
   }
 }

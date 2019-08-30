@@ -67,4 +67,4 @@ package-lock.json
 app/dist
 
 # src directory 
-app/src/*
+app/src
