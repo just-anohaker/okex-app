@@ -27,6 +27,7 @@
     "asar": true,
     "asarUnpack": [
       "**/supported/**/*"
-    ]
+    ],
+    "icon": "app.ico"
   }
 }
