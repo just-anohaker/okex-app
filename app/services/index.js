@@ -2,8 +2,10 @@
 
 const fs = require("fs");
 const path = require("path");
+const child_process = require("child_process");
 const { app } = require("electron");
-const { Application } = require("okrobot-electron");
+const terminate = require("terminate");
+// const { Application } = require("okrobot-electron");
 
 function getCurrentDateTime() {
     const t = new Date();
@@ -60,20 +62,75 @@ function main() {
         `cwd(${process.cwd()}), ` +
         `argv(${JSON.stringify(process.argv)})`
     );
-    const inst = Application.getInstance();
-    initSystemLogger(inst);
+    // const inst = Application.getInstance();
+    // initSystemLogger(inst);
 
     app.on("okexAppReady", (newWebContents) => {
         console.log("okexApp started.");
-        inst.changeWebContents(newWebContents);
+        // inst.changeWebContents(newWebContents);
+
+        initSupported();
     });
 
     app.on("okexAppClosed", () => {
         console.log("okexApp closed");
-        inst.changeWebContents(null);
+        // inst.changeWebContents(null);
+
+        uninitSupported();
     });
 
     appExceptionHandler();
 }
 
 main();
+
+let childProcesses = [];
+
+function initSupported() {
+    _initBikiPythonServer();
+}
+
+function uninitSupported() {
+    childProcesses.forEach(childProcess => {
+        terminate(childProcess.pid);
+    });
+    childProcesses = [];
+}
+
+/// private 
+function _initBikiPythonServer() {
+    const p = [__dirname, ".."];
+    if (app.isPackaged) {
+        p.push("..");
+        p.push("app.asar.unpacked")
+    }
+    p.push(...["supported", "biki_server"]);
+    if (process.platform === "win32") {
+        p.push(...["win32", "server", "server.exe"]);
+    } else {
+        p.push(...["mac", "server", "server"]);
+    }
+    const bikiSvrExecablePath = path.resolve(path.join(...p));
+    const bikiSvrChildProcess = child_process.spawn(bikiSvrExecablePath);
+    if (bikiSvrChildProcess) {
+        childProcesses.push(bikiSvrChildProcess);
+
+        bikiSvrChildProcess.stdout.on("data",
+            data => console.log("bikisvr stdout data:", data.toString("utf8")));
+        bikiSvrChildProcess.stdout.on("error",
+            error => console.log("bikisvr stdout error:", error.toString()));
+        bikiSvrChildProcess.stderr.on("data",
+            data => console.log("bikisvr stderr data:", data.toString("utf8")));
+        bikiSvrChildProcess.stderr.on("error",
+            error => console.log("bikisvr stderr error:", error.toString()));
+
+        bikiSvrChildProcess.on("close",
+            (code, signal) => console.log(["bikisvr closed with ", code, ", ", signal].join("")));
+        bikiSvrChildProcess.on("exit",
+            (code, signal) => console.log(["bikisvr exit with ", code, ",", signal].join("")));
+        bikiSvrChildProcess.on("error",
+            error => console.log("bikisvr error:", error));
+    } else {
+        console.log("child_process spawn failured.");
+    }
+}

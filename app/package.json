@@ -1,31 +1,32 @@
 {
-  "name": "okex-app",
-  "version": "1.0.2",
-  "description": "OKEx 交易管理程序",
+  "name": "biki-app",
+  "version": "1.0.0",
+  "description": "BiKi 交易管理程序",
   "main": "main.js",
   "homepage": "https://github.com/just-anohaker/okex-app.git",
   "scripts": {
-    "install": "npm install okrobot-electron",
     "build:win32": "electron-builder -w",
     "build:mac": "electron-builder -m",
     "clean:win32": "rmdir /Q /S dist",
-    "clean:mac": "rm -rf dist",
-    "deprecated-installdeps": "npm install okrobot-electron",
-    "deprecated-postinstall": "electron-builder install-app-deps"
+    "clean:mac": "rm -rf dist"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "okrobot-electron": "git+https://github.com/just-anohaker/ok-robot-electron.git#dev"
+    "terminate": "^2.1.2"
   },
   "build": {
-    "productName": "EnTanMo-OKEx-App",
-    "appId": "com.entanmo.etmokexapp",
+    "productName": "EnTanMo-BiKi-App",
+    "appId": "com.entanmo.etmbikiapp",
     "copyright": "EnTanMo",
     "electronVersion": "5.0.2",
     "electronDownload": {
       "version": "5.0.2"
-    }
+    },
+    "asar": true,
+    "asarUnpack": [
+      "**/supported/**/*"
+    ]
   }
 }

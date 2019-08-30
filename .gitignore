@@ -68,3 +68,4 @@ app/dist
 
 # src directory 
 app/src/*
+app/supported/*
