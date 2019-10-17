@@ -5,7 +5,10 @@ const path = require("path");
 const child_process = require("child_process");
 const { app } = require("electron");
 const terminate = require("terminate");
+const { ipcMain, dialog } = require("electron");
 // const { Application } = require("okrobot-electron");
+
+let _mainWindow;
 
 function getCurrentDateTime() {
     const t = new Date();
@@ -43,6 +46,82 @@ function initSystemLogger(inst) {
     }
 }
 
+function nativeUtils() {
+    function openFileDialog(evt) {
+        dialog.showOpenDialog(
+            _mainWindow,
+            {
+                title: "预警音乐文件选择",
+                properties: ["openFile"],
+                filters: [
+                    { name: "预警音乐", extensions: ["mp3", "wav", "ogg", "flac"] }
+                ]
+            },
+            (filePaths) => {
+                if (filePaths === undefined || filePaths.length <= 0) {
+                    return evt.sender.send(
+                        "utils.openFileDialog",
+                        {
+                            success: true,
+                            result: {
+                                canceled: true
+                            }
+                        }
+                    )
+                }
+
+                return evt.sender.send(
+                    "utils.openFileDialog",
+                    {
+                        success: true,
+                        result: {
+                            canceled: false,
+                            filepath: filePaths[0]
+                        }
+                    }
+                )
+            }
+        )
+    }
+
+    function retrieveFileData(evt, args) {
+        const filepath = args.filepath;
+        if (!fs.existsSync(filepath)) {
+            return evt.sender.send(
+                "utils.retrieveFileData",
+                {
+                    success: false,
+                    error: "file(" + filepath + ") not exists"
+                }
+            );
+        }
+
+        try {
+            const fileData = fs.readFileSync(filepath);
+            return evt.sender.send(
+                "utils.retrieveFileData",
+                {
+                    success: true,
+                    result: {
+                        data: fileData
+                    }
+                }
+            )
+        } catch (error) {
+            return evt.sender.send(
+                "utils.retrieveFileData",
+                {
+                    success: false,
+                    error: error.toString()
+                }
+            );
+        }
+    }
+
+    ipcMain.on("utils.openFileDialog", openFileDialog);
+    ipcMain.on("utils.retrieveFileData", retrieveFileData);
+}
+
 function appExceptionHandler() {
     process.on("uncaughtException", (error) => {
         console.log("[uncaughtException] ", error);
@@ -75,6 +154,10 @@ function main() {
         }
     });
 
+    app.on("mainWindowReady", (mainWinow) => {
+        _mainWindow = mainWinow;
+    });
+
     app.on("okexAppReady", (newWebContents) => {
         console.log("okexApp started.");
         // inst.changeWebContents(newWebContents);
@@ -88,6 +171,8 @@ function main() {
 
         uninitSupported();
     });
+
+    nativeUtils();
 
     appExceptionHandler();
 }

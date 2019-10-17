@@ -1,6 +1,6 @@
 {
   "name": "biki-app",
-  "version": "1.0.0",
+  "version": "1.0.16",
   "description": "BiKi 交易管理程序",
   "main": "main.js",
   "homepage": "https://github.com/just-anohaker/okex-app.git",
