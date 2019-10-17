@@ -38,6 +38,7 @@ function createWindow() {
     });
 
     app.emit("okexAppReady", win.webContents);
+    app.emit("mainWindowReady", win);
 }
 
 // Electron 会在初始化后并准备

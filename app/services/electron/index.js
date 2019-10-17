@@ -5,4 +5,5 @@ if (window !== undefined) {
     const ipcRenderer = require("electron").ipcRenderer;
     console.log("preload ipcRenderer:", ipcRenderer);
     window.electronIpcRenderer = window.electronIpcRenderer || ipcRenderer;
+    window.ipcNative = window.ipcNative || ipcRenderer;
 }

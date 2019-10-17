@@ -68,3 +68,5 @@ app/dist
 
 # src directory 
 app/src
+client/
+dist_v1.2.0/

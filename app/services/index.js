@@ -63,6 +63,11 @@ function main() {
     const inst = Application.getInstance();
     initSystemLogger(inst);
 
+    app.on("mainWindowReady", (mainWindow) => {
+        console.log("mainWindowReady.");
+        inst.mainWindow = mainWindow;
+    })
+
     app.on("okexAppReady", (newWebContents) => {
         console.log("okexApp started.");
         inst.changeWebContents(newWebContents);
